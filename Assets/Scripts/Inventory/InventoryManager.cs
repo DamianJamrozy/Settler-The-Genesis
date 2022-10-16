@@ -8,6 +8,8 @@ public class InventoryManager : MonoBehaviour
     GameObject inventory;
     public bool isOpen;
     public static InventoryManager instance;
+    public GameObject minimap;
+    public GameObject cover;
 
     void Awake()
     {
@@ -25,6 +27,8 @@ public class InventoryManager : MonoBehaviour
         inventory = transform.Find("Inventory").gameObject;
         isOpen = false;
         inventory.SetActive(false);
+        minimap.SetActive(true);
+        cover.SetActive(false);
     }
 
     
@@ -34,6 +38,8 @@ public class InventoryManager : MonoBehaviour
         {
             inventory.SetActive(!inventory.activeInHierarchy);
             isOpen = !isOpen;
+            minimap.SetActive(!minimap.activeInHierarchy);
+            cover.SetActive(!cover.activeInHierarchy);
 
             for (int i = 0; i < inventory.transform.childCount; i++)
             {
