@@ -355,6 +355,11 @@
 -r:"Library/Bee/artifacts/1900b0aE.dag/UnityEngine.UI.ref.dll"
 "Assets/Polytope Studio/Lowpoly Medieval Characters/Sources/Scripts/PT_Create_Prefab.cs"
 "Assets/Scripts/CameraFollow.cs"
+"Assets/Scripts/Controller.cs"
+"Assets/Scripts/Equipment/Database/Item.cs"
+"Assets/Scripts/Equipment/Database/ItemsDataBase.cs"
+"Assets/Scripts/Equipment/EquipmentOpener.cs"
+"Assets/Scripts/GuiBars.cs"
 "Assets/Scripts/PlayerMovement.cs"
 -langversion:9.0
 
