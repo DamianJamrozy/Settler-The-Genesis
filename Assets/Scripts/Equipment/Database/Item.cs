@@ -15,14 +15,14 @@ public struct Item
 
     public string itemName;
     public string itemDesc;
-    public Texture2D texture;
+    public Sprite texture;
     public int ID;
     public ItemType itemType;
     public float damage;
     public float foodAmount;
     public bool eatable;
 
-    public Item(string itemName, string itemDesc, Texture2D texture, int ID, ItemType itemType, float damage, float foodAmount, bool eatable)
+    public Item(string itemName, string itemDesc, Sprite texture, int ID, ItemType itemType, float damage, float foodAmount, bool eatable)
     {
         this.itemName = itemName;
         this.itemDesc = itemDesc;
