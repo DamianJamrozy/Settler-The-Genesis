@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class Controller : MonoBehaviour
 {
     Rigidbody RB;
-    public EquipmentOpener eo;
+    public InventoryManager im;
     public GuiBars gb;
 
     GameObject cam;
@@ -27,7 +27,7 @@ public class Controller : MonoBehaviour
 
     public bool isGrounded = true;
     public float groundCheckDistance;
-    public float bufferCheckDistance = 0.1f;
+    public float bufferCheckDistance = 0.01f;
 
     float camRotX;
 
@@ -90,7 +90,7 @@ public class Controller : MonoBehaviour
 
         RB.MoveRotation(RB.rotation * Quaternion.Euler(new Vector3(0, mouseX * mouseSensitivity, 0)));
 
-        if(eo.isOpen)
+        if(im.isOpen)
         {
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
@@ -107,37 +107,7 @@ public class Controller : MonoBehaviour
             Quaternion camRot = Quaternion.Euler(camRotX, 0, 0);
             cam.transform.localRotation = camRot;
         }
-        
-
-        
-        
-        //Zamiast wykrywania kolizjii wykrywanie jak daleko jest player od ziemi
-        // if ((player.transform.position - cos.transform.position).sqrMagnitude<3*3){
-        //     IsGrounded = true;
-        //     Debug.Log("Tak");
-        // }else{
-        //     IsGrounded = false;
-        //     Debug.Log("Nie");
-        // }
-
-
     }
 
 
-    // Wykrywanie kolizji
-    // private void OnCollisionEnter(Collision collision)
-    // {
-    //     if(collision.gameObject.tag ==  "Ground")
-    //     {
-    //         IsGrounded = true;
-    //     }
-    // }
-
-    // private void OnCollisionExit(Collision collision)
-    // {
-    //     if(collision.gameObject.tag == "Ground")
-    //     {
-    //         IsGrounded = false;
-    //     }
-    // }
 }

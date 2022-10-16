@@ -356,13 +356,12 @@
 "Assets/Polytope Studio/Lowpoly Medieval Characters/Sources/Scripts/PT_Create_Prefab.cs"
 "Assets/Scripts/CameraFollow.cs"
 "Assets/Scripts/Controller.cs"
-"Assets/Scripts/Equipment/Database/Item.cs"
-"Assets/Scripts/Equipment/Database/ItemsDataBase.cs"
-"Assets/Scripts/Equipment/EquipmentManager.cs"
-"Assets/Scripts/Equipment/EquipmentOpener.cs"
-"Assets/Scripts/Equipment/ItemObject.cs"
-"Assets/Scripts/Equipment/Slot.cs"
 "Assets/Scripts/GuiBars.cs"
+"Assets/Scripts/Inventory/Database/ItemsData.cs"
+"Assets/Scripts/Inventory/InventoryManager.cs"
+"Assets/Scripts/Inventory/ItemObject.cs"
+"Assets/Scripts/Inventory/ItemPicker.cs"
+"Assets/Scripts/Inventory/Slot.cs"
 "Assets/Scripts/PlayerMovement.cs"
 -langversion:9.0
 
