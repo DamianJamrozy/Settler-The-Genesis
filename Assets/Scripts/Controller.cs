@@ -6,10 +6,11 @@ using UnityEngine.UI;
 public class Controller : MonoBehaviour
 {
     Rigidbody RB;
-    public InventoryManager im;
+    public InventoryManagerOld im;
     public GuiBars gb;
+    public Animator animator;
 
-    GameObject cam;
+    public GameObject cam;
 
     public float moveSpeed = 0.1f;
     public float sprintSpeed = 0.3f;
@@ -38,7 +39,7 @@ public class Controller : MonoBehaviour
     void Awake()
     {
         RB = GetComponent<Rigidbody>();
-        cam = transform.Find("Camera").gameObject;
+
     }
     
     void Update()
@@ -63,19 +64,49 @@ public class Controller : MonoBehaviour
 
         if(inSprint && isGrounded && gb.food > 0.5f) 
         {
-            RB.MovePosition((transform.position + (transform.forward) * vertical * sprintSpeed) + (transform.right * horizontal * moveSpeed));
+            if(Input.GetKey(KeyCode.W))
+            {
+                animator.SetBool("isDancing", false);
+                animator.SetBool("isRunning", true);
+            }else if(Input.GetKey(KeyCode.S))
+            {
+                animator.SetBool("isDancing", false);
+                animator.SetBool("isRunning", false);
+                animator.SetBool("isRunningBack", true);
+            }
+            
+            RB.MovePosition((transform.position + (transform.forward) * vertical * sprintSpeed)); // + (transform.right * horizontal * moveSpeed)
             gb.food -= gb.foodSpeed * 5 * Time.deltaTime;
         }
         else
         {
-            RB.MovePosition((transform.position + (transform.forward) * vertical * moveSpeed) + (transform.right * horizontal * moveSpeed));
+            if(Input.GetKey(KeyCode.W)){
+                animator.SetBool("isDancing", false);
+                animator.SetBool("isWalking", true);
+            }else if(Input.GetKey(KeyCode.S))
+            {
+                animator.SetBool("isDancing", false);
+                animator.SetBool("isWalking", false);
+                animator.SetBool("isWalkingBack", true);
+            }else
+            {
+                animator.SetBool("isWalkingBack", false);
+                animator.SetBool("isWalking", false);
+            }
+            animator.SetBool("isRunningBack", false);
+            animator.SetBool("isRunning", false);
+            RB.MovePosition((transform.position + (transform.forward) * vertical * moveSpeed) ); // + (transform.right * horizontal * moveSpeed)
         }
         
         if(isGrounded == true && Input.GetKeyDown(KeyCode.Space) && gb.food > 5f)
         {
             isGrounded = false;
-            RB.AddForce(transform.up * jumpForce);
-            gb.food -= 5f;
+            animator.SetBool("isDancing", false);
+            animator.SetBool("jump", true);
+            StartCoroutine(Jump());
+        }else
+        {
+            animator.SetBool("jump", false);
         }
 
         if(mouseX == 0)
@@ -107,6 +138,18 @@ public class Controller : MonoBehaviour
             Quaternion camRot = Quaternion.Euler(camRotX, 0, 0);
             cam.transform.localRotation = camRot;
         }
+
+        if (Input.GetKey(KeyCode.D)){
+            animator.SetBool("isDancing", true);
+        }
+
+    }
+
+    public IEnumerator Jump()
+    {
+        yield return new WaitForSeconds(0.5f);
+        RB.AddForce(transform.up * jumpForce);
+        gb.food -= 5f;
     }
 
 
