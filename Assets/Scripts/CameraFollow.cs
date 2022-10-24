@@ -29,12 +29,31 @@ public class CameraFollow : MonoBehaviour
     public Transform target;
     public float pLerp = .02f;
     public float rLerp = .01f;
+    
+    public Camera mainCam;
+
+    void Awake()
+    {
+    }
 
     void Update()
     {
         //transform.position = Vector3.Lerp(transform.position, target.position, pLerp);
         transform.rotation = Quaternion.Lerp(transform.rotation, target.rotation, rLerp);
         
+        ZoomCamera();
+    }
+    
+    void ZoomCamera()
+    {
+        if(Input.GetButton("Fire2"))
+        {
+            mainCam.fieldOfView = Mathf.Lerp(mainCam.fieldOfView, 20, 3 * Time.deltaTime);
+
+        }else
+        {
+            mainCam.fieldOfView = Mathf.Lerp(mainCam.fieldOfView, 60, 3 * Time.deltaTime);
+        }
     }
 
 

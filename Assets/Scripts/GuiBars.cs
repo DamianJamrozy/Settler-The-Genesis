@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class GuiBars : MonoBehaviour
 {
+    public static GuiBars Instance;
     
     [Range(0, 100)] public float health = 100;
     [Range(0, 100)] public float food = 100;
@@ -20,7 +21,7 @@ public class GuiBars : MonoBehaviour
 
     void Awake()
     {
-        
+        Instance = this;
     }
 
     // Update is called once per frame

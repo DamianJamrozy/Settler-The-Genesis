@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 public class InventoryManager : MonoBehaviour
 {
@@ -15,6 +16,8 @@ public class InventoryManager : MonoBehaviour
     public Toggle EnableRemove;
 
     public InventoryItemController[] InventoryItems;
+
+    public InventoryItemController equipTool;
 
     private void Awake()
     {
@@ -72,6 +75,14 @@ public class InventoryManager : MonoBehaviour
             {
                 item.Find("RemoveButton").gameObject.SetActive(false);
             }
+        }
+    }
+
+    public void RemoveItemsInventory()
+    {
+        foreach (Transform item in ItemContent)
+        {
+            Destroy(item.gameObject);
         }
     }
 

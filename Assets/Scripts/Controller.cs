@@ -10,11 +10,19 @@ public class Controller : MonoBehaviour
     public GuiBars gb;
     public Animator animator;
 
-    public GameObject cam;
+    public static Controller Instance;
+
+    public GameObject sword;
+    public GameObject bow;
+
+
+    public Camera cam;
 
     public float moveSpeed = 0.1f;
     public float sprintSpeed = 0.3f;
     public float jumpForce = 16500;
+
+    public float damage = 1f;
 
     public bool inSprint;
 
@@ -36,9 +44,24 @@ public class Controller : MonoBehaviour
 
     public Transform player;
 
+    bool isAiming;
+
+    [Header("Aiming Settings")]
+    RaycastHit hit;
+    public LayerMask aimLayers;
+    Ray ray;
+
+    [Header("Head Rotation Settings")]
+    public float lookAtPoint = 2.8f;
+
+    public bool testAim;
+
+    bool hitDetected;
+
     void Awake()
     {
         RB = GetComponent<Rigidbody>();
+        Instance = this;
 
     }
     
@@ -143,6 +166,46 @@ public class Controller : MonoBehaviour
             animator.SetBool("isDancing", true);
         }
 
+        if(Input.GetMouseButtonDown(0))
+        {
+            animator.SetBool("isAttacking", true);
+        }
+        if(Input.GetMouseButtonUp(0))
+        {
+            animator.SetBool("isAttacking", false);
+        }
+
+
+        isAiming = Input.GetButton("Fire2");
+
+
+        if(testAim)
+        {
+            isAiming = true;
+        }
+
+        CharacterAim(isAiming);
+        if(isAiming)
+        {
+            Aim();
+            CharacterPullString(Input.GetButton("Fire2"));
+            if(Input.GetButtonUp("Fire1"))
+            {
+                CharacterFireArrow();  
+                if(hitDetected)
+                {
+                    Bow.Instance.Fire(hit.point);
+                }else
+                {
+                    Bow.Instance.Fire(ray.GetPoint(300f));
+                }
+            }
+            
+        }else
+        {
+            DisableArrow();
+            Release();
+        }
     }
 
     public IEnumerator Jump()
@@ -150,6 +213,57 @@ public class Controller : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         RB.AddForce(transform.up * jumpForce);
         gb.food -= 5f;
+    }
+
+    public void CharacterAim(bool aiming)
+    {
+        animator.SetBool("aim", aiming);
+    }
+
+    public void CharacterPullString(bool pull)
+    {
+        animator.SetBool("pullString", pull);
+    }
+
+    public void CharacterFireArrow()
+    {
+        animator.SetTrigger("fire");
+    }
+
+    public void Aim()
+    {
+        Vector3 camPosition = cam.transform.position;
+        Vector3 dir = cam.transform.forward;
+
+        ray = cam.ScreenPointToRay(Input.mousePosition);
+        // ray = new Ray(camPosition, dir);
+        if(Physics.Raycast(ray, out hit, 500f, aimLayers))
+        {
+            hitDetected = true;
+        }else
+        {
+            hitDetected = false;
+        }
+    }
+
+    public void Pull()
+    {
+        Bow.Instance.PullString();
+    }
+
+    public void EnableArrow()
+    {
+        Bow.Instance.PickArrow();
+    }
+
+    public void DisableArrow()
+    {
+        Bow.Instance.DisableArrow();
+    }
+
+    public void Release()
+    {
+        Bow.Instance.ReleaseString();
     }
 
 

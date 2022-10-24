@@ -9,4 +9,14 @@ public class Item : ScriptableObject
     public string itemName;
     public int value;
     public Sprite icon;
+    public ItemType itemType;
+    public Vector3 pickPosition;
+    public Vector3 pickRotation;
+
+    public enum ItemType
+    {
+        Food,
+        Tool,
+        Other
+    }
 }

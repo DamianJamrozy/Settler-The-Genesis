@@ -11,6 +11,7 @@ public class InventoryManagerOld : MonoBehaviour
     public GameObject minimap;
     public GameObject cover;
 
+
     void Awake()
     {
         if(instance == null)
@@ -36,20 +37,31 @@ public class InventoryManagerOld : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.E))
         {
-            inventory.SetActive(!inventory.activeInHierarchy);
-            isOpen = !isOpen;
-            minimap.SetActive(!minimap.activeInHierarchy);
-            cover.SetActive(!cover.activeInHierarchy);
-
-            InventoryManager.Instance.ListItems();
-            InventoryManager.Instance.EnableItemsRemove();
-
-            for (int i = 0; i < inventory.transform.childCount; i++)
+            if(isOpen)
             {
+                inventory.SetActive(false);
+                isOpen = false;
+                minimap.SetActive(true);
+                cover.SetActive(false);
+                InventoryManager.Instance.RemoveItemsInventory();
+                
+            }else
+            {
+                inventory.SetActive(true);
+                isOpen = true;
+                minimap.SetActive(false);
+                cover.SetActive(true);
+                InventoryManager.Instance.ListItems();
+                InventoryManager.Instance.EnableItemsRemove();
+            }
+            
+
+            // for (int i = 0; i < inventory.transform.childCount; i++)
+            // {
                 
 
                 
-            }
+            // }
             
         }
     }

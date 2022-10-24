@@ -9,6 +9,10 @@ public class InventoryItemController : MonoBehaviour
 
     public Button RemoveButton;
 
+    public void Awake()
+    {
+    }
+
     public void RemoveItem()
     {
         InventoryManager.Instance.Remove(item);
@@ -19,5 +23,34 @@ public class InventoryItemController : MonoBehaviour
     public void AddItem(Item newItem)
     {
         item = newItem;
+    }
+
+    public void UseItem()
+    {
+        switch(item.itemType)
+        {
+            case Item.ItemType.Food:
+                GuiBars.Instance.food += item.value;
+                break;
+            case Item.ItemType.Tool:
+                if(Controller.Instance.bow.activeInHierarchy)
+                {
+                    Controller.Instance.bow.SetActive(false);
+                }
+                Controller.Instance.sword.SetActive(true);
+                Controller.Instance.damage += item.value;
+                
+                break;
+            case Item.ItemType.Other:
+                if(Controller.Instance.sword.activeInHierarchy)
+                {
+                    Controller.Instance.sword.SetActive(false);
+                }
+                Controller.Instance.bow.SetActive(true);
+                
+                break;
+        }
+
+        RemoveItem();
     }
 }
