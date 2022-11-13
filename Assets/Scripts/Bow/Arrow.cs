@@ -36,6 +36,10 @@ public class Arrow : MonoBehaviour
             disableRotation = true;
             rb.isKinematic = true;
             bx.isTrigger = true;
+            if(collision.gameObject.TryGetComponent<DamageEnemy>(out DamageEnemy damageEnemy))
+            {
+                damageEnemy.TakeDamage();
+            }
         }
         
     }

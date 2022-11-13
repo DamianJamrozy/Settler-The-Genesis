@@ -9,6 +9,10 @@ public class DamageEnemy : MonoBehaviour
     public float maxDistance = 5;
     public Camera cam;
     public static DamageEnemy Instance;
+    Animator anim;
+    private UnityEngine.AI.NavMeshAgent _agent;
+
+    public bool canAttack;
 
     public float health;
 
@@ -16,24 +20,20 @@ public class DamageEnemy : MonoBehaviour
     {
         health = enemy.health;
         Instance = this;
+        anim = GetComponent<Animator>();
+        _agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
     }
 
     void Update()
     {
-
-        RaycastHit hit;
-        Ray ray = cam.ScreenPointToRay(Input.mousePosition);
-
-        if(Physics.Raycast(ray, out hit, maxDistance))
+        if(Controller.Instance.sword.activeInHierarchy)
         {
-            if(hit.transform.TryGetComponent(out DamageEnemy enemy))
-            {
-                if(Input.GetMouseButtonDown(0))
-                {
-                    TakeDamage();
-                }
-            }
+            canAttack = true;
+        }else
+        {
+            canAttack = false;
         }
+        
     }
 
     public void TakeDamage()
@@ -42,7 +42,33 @@ public class DamageEnemy : MonoBehaviour
 
         if(health <=0)
         {
-            Destroy(gameObject);
+            anim.SetBool("isWalking", false);
+            anim.SetBool("isDrinking", false);
+            anim.SetBool("isRunning", false);
+            anim.SetBool("isAttacking", false);
+            anim.SetBool("isDead", true);
+        }
+    }
+
+    public void TakeDamageSword()
+    {
+        RaycastHit hit2;
+        Ray ray = cam.ScreenPointToRay(Input.mousePosition);
+
+        if(Physics.Raycast(ray, out hit2, maxDistance))
+        {
+            if(hit2.transform.TryGetComponent<DamageEnemy>(out DamageEnemy enemy))
+            {
+                if(Input.GetMouseButtonDown(0))
+                {
+                    health -= Controller.Instance.damage;
+
+                    if(health <=0)
+                    {
+                        anim.SetBool("isDead", true);
+                    }
+                }
+            }
         }
     }
 

@@ -46,13 +46,16 @@ public class CameraFollow : MonoBehaviour
     
     void ZoomCamera()
     {
-        if(Input.GetButton("Fire2"))
+        if(Controller.Instance.bowEquip)
         {
-            mainCam.fieldOfView = Mathf.Lerp(mainCam.fieldOfView, 20, 3 * Time.deltaTime);
+            if(Input.GetButton("Fire2"))
+            {
+                mainCam.fieldOfView = Mathf.Lerp(mainCam.fieldOfView, 20, 3 * Time.deltaTime);
 
-        }else
-        {
-            mainCam.fieldOfView = Mathf.Lerp(mainCam.fieldOfView, 60, 3 * Time.deltaTime);
+            }else
+            {
+                mainCam.fieldOfView = Mathf.Lerp(mainCam.fieldOfView, 60, 3 * Time.deltaTime);
+            }
         }
     }
 

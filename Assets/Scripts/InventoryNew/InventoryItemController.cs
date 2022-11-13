@@ -32,15 +32,6 @@ public class InventoryItemController : MonoBehaviour
             case Item.ItemType.Food:
                 GuiBars.Instance.food += item.value;
                 break;
-            case Item.ItemType.Tool:
-                if(Controller.Instance.bow.activeInHierarchy)
-                {
-                    Controller.Instance.bow.SetActive(false);
-                }
-                Controller.Instance.sword.SetActive(true);
-                Controller.Instance.damage += item.value;
-                
-                break;
             case Item.ItemType.Other:
                 if(Controller.Instance.sword.activeInHierarchy)
                 {

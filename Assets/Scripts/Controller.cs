@@ -22,7 +22,7 @@ public class Controller : MonoBehaviour
     public float sprintSpeed = 0.3f;
     public float jumpForce = 16500;
 
-    public float damage = 1f;
+    public float damage = 16f;
 
     public bool inSprint;
 
@@ -57,6 +57,9 @@ public class Controller : MonoBehaviour
     public bool testAim;
 
     bool hitDetected;
+
+    public bool swordEquip = false;
+    public bool bowEquip = false;
 
     void Awake()
     {
@@ -166,46 +169,143 @@ public class Controller : MonoBehaviour
             animator.SetBool("isDancing", true);
         }
 
-        if(Input.GetMouseButtonDown(0))
+        // SWORD ATTACK
+
+        if(swordEquip)
         {
-            animator.SetBool("isAttacking", true);
-        }
-        if(Input.GetMouseButtonUp(0))
-        {
-            animator.SetBool("isAttacking", false);
-        }
-
-
-        isAiming = Input.GetButton("Fire2");
-
-
-        if(testAim)
-        {
-            isAiming = true;
-        }
-
-        CharacterAim(isAiming);
-        if(isAiming)
-        {
-            Aim();
-            CharacterPullString(Input.GetButton("Fire2"));
-            if(Input.GetButtonUp("Fire1"))
+            if(Input.GetMouseButtonDown(0))
             {
-                CharacterFireArrow();  
-                if(hitDetected)
+                if(Sword.Instance.canAttack)
                 {
-                    Bow.Instance.Fire(hit.point);
-                }else
-                {
-                    Bow.Instance.Fire(ray.GetPoint(300f));
+                    Sword.Instance.canAttack = false;
+                    Sword.Instance.isAttacking = true;
+                    animator.SetTrigger("SwordAttack");
+                    StartCoroutine(ResetAttackCooldown());
                 }
+                
             }
+        }
+            
+
+        // BOW ATTACK
+
+        if(bowEquip)
+        {
+            isAiming = Input.GetButton("Fire2");
+            if(testAim)
+            {
+                isAiming = true;
+            }
+
+            CharacterAim(isAiming);
+            if(isAiming)
+            {
+                Aim();
+                CharacterPullString(Input.GetButton("Fire2"));
+                if(Input.GetButtonUp("Fire1") && Bow.Instance.canFireArrow)
+                {
+                    CharacterFireArrow();  
+                    if(hitDetected)
+                    {
+                        Bow.Instance.Fire(hit.point);
+                    }else
+                    {
+                        Bow.Instance.Fire(ray.GetPoint(300f));
+                    }
+                }
             
         }else
         {
             DisableArrow();
             Release();
         }
+        }else
+        {
+            DisableArrow();
+            Release();
+        }
+
+        if(Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            // animacja i w animacji ta fukncja \/
+            if(swordEquip && !isAiming)
+            {
+                //UnEquipSword();
+                animator.SetTrigger("SwordUnEquip");
+            }else
+            {
+                if(bowEquip)
+                {
+                    //UnEquipBow();
+                    animator.SetTrigger("BowUnEquip");
+                }
+                //EquipSword();
+                animator.SetTrigger("SwordEquip");
+            }
+            
+        }
+
+        if(Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            // tak samo jak sword
+            if(bowEquip && !isAiming)
+            {
+                //UnEquipBow();
+                animator.SetTrigger("BowUnEquip");
+            }else
+            {
+                if(swordEquip)
+                {
+                    //UnEquipSword();
+                    animator.SetTrigger("SwordUnEquip");
+                }
+                //EquipBow();
+                animator.SetTrigger("BowEquip");               
+            }
+        }
+
+    }
+
+    IEnumerator ResetAttackCooldown()
+    {
+        yield return new WaitForSeconds(1.3f);
+        Sword.Instance.canAttack = true;
+    }
+
+    public void EquipSword()
+    {
+        Sword.Instance.EquipSword();
+        swordEquip = true;
+        damage += 15;
+    }
+
+    public void UnEquipSword()
+    {
+        Sword.Instance.UnEquipSword();
+        swordEquip = false;
+        damage -= 15;
+    }
+
+    public void Attack()
+    {
+        if(DamageEnemy.Instance.canAttack)
+        {
+            DamageEnemy.Instance.TakeDamageSword();
+        }
+    }
+
+    public void EquipBow()
+    {
+        Bow.Instance.EquipBow();
+        bowEquip = true;
+        damage += 15;
+    }
+
+    public void UnEquipBow()
+    {
+        Bow.Instance.UnEquipBow();
+        bowEquip = false;
+        damage -= 15;
     }
 
     public IEnumerator Jump()
@@ -266,5 +366,19 @@ public class Controller : MonoBehaviour
         Bow.Instance.ReleaseString();
     }
 
+    public void CantFireArrow()
+    {
+        Bow.Instance.canFireArrow = false;
+    }
+
+    public void CanFireArrow()
+    {
+        Bow.Instance.canFireArrow = true;
+    }
+
+    public void TurnOffAttacking()
+    {
+        Sword.Instance.isAttacking = false;
+    }
 
 }

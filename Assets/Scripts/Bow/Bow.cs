@@ -37,7 +37,7 @@ public class Bow : MonoBehaviour
     Rigidbody currentArrow;
 
     bool canPullString = false;
-    bool canFireArrow = false;
+    public bool canFireArrow = true;
 
 
     public Camera cam;
@@ -78,14 +78,14 @@ public class Bow : MonoBehaviour
         bowSettings.bowString.transform.parent = bowSettings.stringInitialParent;
     }
 
-    void EquipBow()
+    public void EquipBow()
     {
         this.transform.position = bowSettings.EquipPos.position;
         this.transform.rotation = bowSettings.EquipPos.rotation;
         this.transform.parent = bowSettings.EquipParent;
     }
 
-    void UnEquipBow()
+    public void UnEquipBow()
     {
         this.transform.position = bowSettings.UnEquipPos.position;
         this.transform.rotation = bowSettings.UnEquipPos.rotation;
