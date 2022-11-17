@@ -370,7 +370,6 @@
 -r:"Library/Bee/artifacts/1900b0aE.dag/UnityEditor.UI.ref.dll"
 -r:"Library/Bee/artifacts/1900b0aE.dag/UnityEngine.TestRunner.ref.dll"
 -r:"Library/Bee/artifacts/1900b0aE.dag/UnityEngine.UI.ref.dll"
-"Assets/Main Cit/Slavic World Free/Editor/WelcomeWindow.cs"
 "Assets/Polytope Studio/Lowpoly Medieval Characters/Sources/Scripts/Editor/PT_Create_Prefab_Editor.cs"
 -langversion:9.0
 

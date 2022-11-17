@@ -41,7 +41,7 @@ public class CameraFollow : MonoBehaviour
         //transform.position = Vector3.Lerp(transform.position, target.position, pLerp);
         transform.rotation = Quaternion.Lerp(transform.rotation, target.rotation, rLerp);
         
-        ZoomCamera();
+        //ZoomCamera();
     }
     
     void ZoomCamera()

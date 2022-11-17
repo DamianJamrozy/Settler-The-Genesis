@@ -1,9 +1,9 @@
 sceneSetups:
 - path: Assets/RPGPP_LT/Scene/rpgpp_lt_scene_1.0.unity
-  isLoaded: 1
-  isActive: 1
+  isLoaded: 0
+  isActive: 0
   isSubScene: 0
 - path: Assets/Main Cit/Slavic World Free/Scene/Slavica Free 2022 Version.unity
   isLoaded: 1
-  isActive: 0
+  isActive: 1
   isSubScene: 0
