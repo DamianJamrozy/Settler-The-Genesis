@@ -9,6 +9,7 @@ TagManager:
   - Enemy
   - House
   - Stairs
+  - Door
   layers:
   - Default
   - TransparentFX

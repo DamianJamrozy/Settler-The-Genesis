@@ -30,7 +30,8 @@ public class InventoryItemController : MonoBehaviour
         switch(item.itemType)
         {
             case Item.ItemType.Food:
-                GuiBars.Instance.food += item.value;
+                if(GuiBars.Instance.food + item.value > 100) GuiBars.Instance.food = 100;
+                else GuiBars.Instance.food += item.value;
                 break;
             case Item.ItemType.Other:
                 if(Controller.Instance.sword.activeInHierarchy)

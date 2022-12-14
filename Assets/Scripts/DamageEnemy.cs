@@ -11,6 +11,7 @@ public class DamageEnemy : MonoBehaviour
     public static DamageEnemy Instance;
     Animator anim;
     private UnityEngine.AI.NavMeshAgent _agent;
+    public GameObject pref;
 
     public bool canAttack;
 
@@ -33,21 +34,13 @@ public class DamageEnemy : MonoBehaviour
         {
             canAttack = false;
         }
+        Debug.Log(health);
         
     }
 
     public void TakeDamage()
     {
-        health -= Controller.Instance.damage;
-
-        if(health <=0)
-        {
-            anim.SetBool("isWalking", false);
-            anim.SetBool("isDrinking", false);
-            anim.SetBool("isRunning", false);
-            anim.SetBool("isAttacking", false);
-            anim.SetBool("isDead", true);
-        }
+        
     }
 
     public void TakeDamageSword()

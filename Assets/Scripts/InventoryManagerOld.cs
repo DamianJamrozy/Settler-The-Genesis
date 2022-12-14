@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class InventoryManagerOld : MonoBehaviour
 {
@@ -10,6 +11,9 @@ public class InventoryManagerOld : MonoBehaviour
     public static InventoryManagerOld instance;
     public GameObject minimap;
     public GameObject cover;
+    public GameObject txt;
+    public GameObject quests;
+    public TextMeshProUGUI questCounter;
 
 
     void Awake()
@@ -30,6 +34,7 @@ public class InventoryManagerOld : MonoBehaviour
         inventory.SetActive(false);
         minimap.SetActive(true);
         cover.SetActive(false);
+        quests.SetActive(false);
     }
 
     
@@ -37,12 +42,14 @@ public class InventoryManagerOld : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.E))
         {
+            questCounter.text = Controller.Instance.questCounter.ToString();
             if(isOpen)
             {
                 inventory.SetActive(false);
                 isOpen = false;
                 minimap.SetActive(true);
                 cover.SetActive(false);
+                quests.SetActive(false);
                 InventoryManager.Instance.RemoveItemsInventory();
                 
             }else
@@ -51,18 +58,23 @@ public class InventoryManagerOld : MonoBehaviour
                 isOpen = true;
                 minimap.SetActive(false);
                 cover.SetActive(true);
+                quests.SetActive(true);
                 InventoryManager.Instance.ListItems();
                 InventoryManager.Instance.EnableItemsRemove();
             }
             
-
-            // for (int i = 0; i < inventory.transform.childCount; i++)
-            // {
-                
-
-                
-            // }
-            
         }
+    }
+
+    public void OpenDoor()
+    {
+        Debug.Log("xD");
+        txt.SetActive(true);
+    }
+    
+    public void NoOpenDoor()
+    {
+        Debug.Log("2222");
+        txt.SetActive(false);
     }
 }

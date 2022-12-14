@@ -305,6 +305,7 @@ MonoBehaviour:
   Item: {fileID: 11400000, guid: 5db842026483fb3489d848ac7619277b, type: 2}
   maxDistance: 5
   cam: {fileID: 1896549107}
+  Player: {fileID: 0}
 --- !u!1001 &6537148
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1135,9 +1136,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef7b8d597752ba1408cc384bd8a5f911, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _moveSpeed: 10
-  _jumpSpeed: 0.5
-  _gravity: 2
 --- !u!143 &104997499
 CharacterController:
   m_ObjectHideFlags: 0
@@ -1156,6 +1154,41 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &104997500
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 104997493}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f4beae727540af4c8f0d3dbefb8cb87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  im: {fileID: 1548510252}
+  gb: {fileID: 1548510247}
+  animator: {fileID: 104997497}
+  sword: {fileID: 312222729}
+  bow: {fileID: 1110018065}
+  cam: {fileID: 1896549107}
+  player: {fileID: 104997494}
+  moveSpeed: 0.1
+  sprintSpeed: 0.3
+  jumpForce: 16500
+  jumpCooldown: 0
+  groundCheckDistance: 0
+  damage: 16
+  swordEquip: 0
+  bowEquip: 0
+  mouseSensitivity: 2
+  mouseX: 0
+  mouseY: 0
+  maxRotX: 45
+  aimLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  lookAtPoint: 2.8
 --- !u!1001 &109173488
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3904,6 +3937,7 @@ MonoBehaviour:
   Item: {fileID: 11400000, guid: 5db842026483fb3489d848ac7619277b, type: 2}
   maxDistance: 5
   cam: {fileID: 1896549107}
+  Player: {fileID: 0}
 --- !u!1001 &360958465
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4319,6 +4353,7 @@ MonoBehaviour:
   Item: {fileID: 11400000, guid: 7a1e271cbf764cf42a7ef59a9020475c, type: 2}
   maxDistance: 5
   cam: {fileID: 1896549107}
+  Player: {fileID: 0}
 --- !u!1001 &386802671
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5983,7 +6018,6 @@ MonoBehaviour:
   InventoryItem: {fileID: 5736296680258607951, guid: a1f7a2ff64c2769459cfa6a4e2d0d9eb, type: 3}
   EnableRemove: {fileID: 907179702}
   InventoryItems: []
-  equipTool: {fileID: 0}
 --- !u!4 &548426717
 Transform:
   m_ObjectHideFlags: 0
@@ -8617,6 +8651,7 @@ MonoBehaviour:
   Item: {fileID: 11400000, guid: 7a1e271cbf764cf42a7ef59a9020475c, type: 2}
   maxDistance: 5
   cam: {fileID: 1896549107}
+  Player: {fileID: 0}
 --- !u!1001 &808327438
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11469,6 +11504,7 @@ MonoBehaviour:
   Item: {fileID: 11400000, guid: 772e692ace7e0264abead9a3ce81aa93, type: 2}
   maxDistance: 5
   cam: {fileID: 1896549107}
+  Player: {fileID: 0}
 --- !u!1 &1118540361 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1069567032315564, guid: bdf8e7438a7816543998181bd3067573, type: 3}
@@ -15136,6 +15172,7 @@ MonoBehaviour:
   Item: {fileID: 11400000, guid: 5db842026483fb3489d848ac7619277b, type: 2}
   maxDistance: 5
   cam: {fileID: 1896549107}
+  Player: {fileID: 0}
 --- !u!1001 &1449967881
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17876,6 +17913,7 @@ MonoBehaviour:
   Item: {fileID: 11400000, guid: 7a1e271cbf764cf42a7ef59a9020475c, type: 2}
   maxDistance: 5
   cam: {fileID: 1896549107}
+  Player: {fileID: 0}
 --- !u!1001 &1727957510
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -18104,6 +18142,7 @@ MonoBehaviour:
   Item: {fileID: 11400000, guid: 5db842026483fb3489d848ac7619277b, type: 2}
   maxDistance: 5
   cam: {fileID: 1896549107}
+  Player: {fileID: 0}
 --- !u!1 &1740991176
 GameObject:
   m_ObjectHideFlags: 0
@@ -22748,6 +22787,7 @@ MonoBehaviour:
   Item: {fileID: 11400000, guid: 7a1e271cbf764cf42a7ef59a9020475c, type: 2}
   maxDistance: 5
   cam: {fileID: 1896549107}
+  Player: {fileID: 0}
 --- !u!114 &2138335262
 MonoBehaviour:
   m_ObjectHideFlags: 0

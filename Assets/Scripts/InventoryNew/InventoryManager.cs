@@ -17,8 +17,6 @@ public class InventoryManager : MonoBehaviour
 
     public InventoryItemController[] InventoryItems;
 
-    public InventoryItemController equipTool;
-
     private void Awake()
     {
         Instance = this;

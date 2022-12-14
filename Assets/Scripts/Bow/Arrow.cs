@@ -36,9 +36,13 @@ public class Arrow : MonoBehaviour
             disableRotation = true;
             rb.isKinematic = true;
             bx.isTrigger = true;
-            if(collision.gameObject.TryGetComponent<DamageEnemy>(out DamageEnemy damageEnemy))
+            if(collision.gameObject.TryGetComponent<Polyperfect.Animals.Animal_WanderScript>(out Polyperfect.Animals.Animal_WanderScript animal))
             {
-                damageEnemy.TakeDamage();
+                animal.TakeDamage(Controller.Instance.damage);
+                if(collision.gameObject.TryGetComponent<DamageEnemy>(out DamageEnemy enemy))
+                {
+                    enemy.TakeDamage();
+                }
             }
         }
         

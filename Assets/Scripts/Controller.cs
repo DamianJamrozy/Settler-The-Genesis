@@ -5,67 +5,64 @@ using UnityEngine.UI;
 
 public class Controller : MonoBehaviour
 {
+
+    public static Controller Instance;
+
+    [Header("Components")]
     Rigidbody RB;
     public InventoryManagerOld im;
     public GuiBars gb;
     public Animator animator;
-
-    public static Controller Instance;
-
     public GameObject sword;
     public GameObject bow;
-
-
     public Camera cam;
+    public Transform player;
 
+    [Header("MovementSetup")]
     public float moveSpeed = 0.1f;
     public float sprintSpeed = 0.3f;
     public float jumpForce = 16500;
+    public float jumpCooldown;
+    private bool readyToJump = true;
+    private bool inSprint;
+    private bool isGrounded = true;
+    private bool isJumping = false;
+    public float groundCheckDistance;
+    private float bufferCheckDistance = 0.01f;
 
+    [Header("WeaponSetup")]
     public float damage = 16f;
-
-    public bool inSprint;
+    public bool swordEquip = false;
+    public bool bowEquip = false;
+    bool hitDetected;
 
     public float mouseSensitivity = 2;
-
     float vertical;
     float horizontal;
 
     public float mouseX;
     public float mouseY;
 
-    public bool isGrounded = true;
-    public float groundCheckDistance;
-    public float bufferCheckDistance = 0.01f;
-
     float camRotX;
 
     public float maxRotX = 45;
-
-    public Transform player;
-
-    bool isAiming;
 
     [Header("Aiming Settings")]
     RaycastHit hit;
     public LayerMask aimLayers;
     Ray ray;
+    bool isAiming;
 
     [Header("Head Rotation Settings")]
     public float lookAtPoint = 2.8f;
 
-    public bool testAim;
-
-    bool hitDetected;
-
-    public bool swordEquip = false;
-    public bool bowEquip = false;
-
+    [Header("Few quest settings")]
+    public int questCounter = 1;
     void Awake()
     {
         RB = GetComponent<Rigidbody>();
         Instance = this;
-
+        sword.SetActive(false);
     }
     
     void Update()
@@ -82,13 +79,16 @@ public class Controller : MonoBehaviour
         RaycastHit hit;
         if(Physics.Raycast(transform.position, -transform.up, out hit, groundCheckDistance))
         {
-            isGrounded = true;
+            animator.SetBool("isGrounded" , true);
+            animator.SetBool("jump", false);
+            isJumping = false;
+            Invoke(nameof(setGrounded), jumpCooldown);
         }else
         {
             isGrounded = false;
         }
 
-        if(inSprint && isGrounded && gb.food > 0.5f) 
+        if(inSprint && gb.food > 0.5f) 
         {
             if(Input.GetKey(KeyCode.W))
             {
@@ -100,8 +100,10 @@ public class Controller : MonoBehaviour
                 animator.SetBool("isRunning", false);
                 animator.SetBool("isRunningBack", true);
             }
-            
-            RB.MovePosition((transform.position + (transform.forward) * vertical * sprintSpeed)); // + (transform.right * horizontal * moveSpeed)
+            if(isGrounded)
+                RB.MovePosition((transform.position + (transform.forward) * vertical * sprintSpeed)); // + (transform.right * horizontal * moveSpeed)
+            else if(!isGrounded)
+                RB.MovePosition((transform.position + (transform.forward) * vertical * sprintSpeed));
             gb.food -= gb.foodSpeed * 5 * Time.deltaTime;
         }
         else
@@ -124,12 +126,18 @@ public class Controller : MonoBehaviour
             RB.MovePosition((transform.position + (transform.forward) * vertical * moveSpeed) ); // + (transform.right * horizontal * moveSpeed)
         }
         
-        if(isGrounded == true && Input.GetKeyDown(KeyCode.Space) && gb.food > 5f)
+        if(isGrounded == true && Input.GetKey(KeyCode.Space) && gb.food > 5f && readyToJump)
         {
             isGrounded = false;
+            animator.SetBool("isGrounded", false);
             animator.SetBool("isDancing", false);
             animator.SetBool("jump", true);
-            StartCoroutine(Jump());
+            isJumping = true;
+            readyToJump = false;
+
+            Jump();
+
+            Invoke(nameof(ResetJump), jumpCooldown);
         }else
         {
             animator.SetBool("jump", false);
@@ -192,10 +200,6 @@ public class Controller : MonoBehaviour
         if(bowEquip)
         {
             isAiming = Input.GetButton("Fire2");
-            if(testAim)
-            {
-                isAiming = true;
-            }
 
             CharacterAim(isAiming);
             if(isAiming)
@@ -224,46 +228,51 @@ public class Controller : MonoBehaviour
             DisableArrow();
             Release();
         }
-
-        if(Input.GetKeyDown(KeyCode.Alpha1))
+        if(sword.activeInHierarchy)
         {
-            // animacja i w animacji ta fukncja \/
-            if(swordEquip && !isAiming)
+            if(Input.GetKeyDown(KeyCode.Alpha1))
             {
-                //UnEquipSword();
-                animator.SetTrigger("SwordUnEquip");
-            }else
-            {
-                if(bowEquip)
-                {
-                    //UnEquipBow();
-                    animator.SetTrigger("BowUnEquip");
-                }
-                //EquipSword();
-                animator.SetTrigger("SwordEquip");
-            }
-            
-        }
-
-        if(Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            // tak samo jak sword
-            if(bowEquip && !isAiming)
-            {
-                //UnEquipBow();
-                animator.SetTrigger("BowUnEquip");
-            }else
-            {
-                if(swordEquip)
+                // animacja i w animacji ta fukncja \/
+                if(swordEquip && !isAiming)
                 {
                     //UnEquipSword();
                     animator.SetTrigger("SwordUnEquip");
+                }else
+                {
+                    if(bowEquip)
+                    {
+                        //UnEquipBow();
+                        animator.SetTrigger("BowUnEquip");
+                    }
+                    //EquipSword();
+                    animator.SetTrigger("SwordEquip");
                 }
-                //EquipBow();
-                animator.SetTrigger("BowEquip");               
+                
             }
         }
-
+        
+        if(bow.activeInHierarchy)
+        {
+            if(Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                // tak samo jak sword
+                if(bowEquip && !isAiming)
+                {
+                    //UnEquipBow();
+                    animator.SetTrigger("BowUnEquip");
+                }else
+                {
+                    if(swordEquip)
+                    {
+                        //UnEquipSword();
+                        animator.SetTrigger("SwordUnEquip");
+                    }
+                    //EquipBow();
+                    animator.SetTrigger("BowEquip");               
+                }
+            }
+        }
+        
     }
 
     IEnumerator ResetAttackCooldown()
@@ -308,11 +317,10 @@ public class Controller : MonoBehaviour
         damage -= 15;
     }
 
-    public IEnumerator Jump()
+    public void Jump()
     {
-        yield return new WaitForSeconds(0.5f);
         RB.AddForce(transform.up * jumpForce);
-        gb.food -= 5f;
+        gb.food -= 2f;
     }
 
     public void CharacterAim(bool aiming)
@@ -379,6 +387,24 @@ public class Controller : MonoBehaviour
     public void TurnOffAttacking()
     {
         Sword.Instance.isAttacking = false;
+    }
+
+    private void ResetJump()
+    {
+        readyToJump = true;
+    }
+
+    private void setGrounded()
+    {
+        isGrounded = true;
+    }
+
+    public void playPick(bool down)
+    {
+        if(down)
+            animator.SetTrigger("PickDown");
+        else
+            animator.SetTrigger("Pick");
     }
 
 }
